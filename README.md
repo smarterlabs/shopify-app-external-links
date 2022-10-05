@@ -1,4 +1,4 @@
-# Shopify App Example - QR Codes Node App
+# Shopify App - External Links
 
 This app includes code for the following:
 
