@@ -7,6 +7,9 @@
     "shopify": "shopify",
     "build": "shopify app build",
     "dev": "shopify app dev",
+    "reset": "shopify --reset",
+    "help": "shopify auth --help",
+    "logout": "shopify auth logout",
     "push": "shopify app push",
     "scaffold": "shopify app scaffold",
     "deploy": "shopify app deploy"
