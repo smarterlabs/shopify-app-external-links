@@ -88,6 +88,38 @@ export default function applyQrCodeApiEndpoints(app) {
     res.send(discounts.body.data);
   });
 
+  // Edits theme script file
+  app.post("/api/create-script", async (req, res) => {
+    try {
+      const session = await Shopify.Utils.loadCurrentSession(
+        req,
+        res,
+        app.get("use-online-tokens")
+      );
+
+      if (!session) {
+        res.status(401).send("Could not find a Shopify session");
+        return;
+      }
+
+      const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
+
+      const response = await client.post({
+        path: `admin/api/2021-01/script_tags.json`,
+        data: {
+          script_tag: {
+            event: "onload",
+            src: "https://unpkg.com/@livenetworks/external-links@1.0.1/ln-external-links.js",
+          },
+        },
+      });
+
+      res.send(response.body);
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  })
+
   app.post("/api/qrcodes", async (req, res) => {
     try {
       const id = await QRCodesDB.create({
