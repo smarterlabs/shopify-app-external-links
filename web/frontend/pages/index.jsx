@@ -33,6 +33,16 @@ export default function HomePage() {
     url: "/api/qrcodes",
   });
 
+  const {
+    data: script,
+    isLoading: scriptLoading,
+    isRefetching: scriptRefetching,
+  } = useAppQuery({
+    url: "/api/get-script",
+  });
+
+  console.log(`script`, script)
+
   /* loadingMarkup uses the loading component from AppBridge and components from Polaris  */
   const loadingMarkup = isLoading ? (
     <Card sectioned>

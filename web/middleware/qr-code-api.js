@@ -7,7 +7,8 @@
 */
 
 import { Shopify } from "@shopify/shopify-api";
-
+import {ScriptTag} from '@shopify/shopify-api/dist/rest-resources/2022-10/index.js';
+// import Toast from '@shopify/app-bridge/actions/Toast/index.js';
 import { QRCodesDB } from "../qr-codes-db.js";
 import {
   getQrCodeOr404,
@@ -101,20 +102,37 @@ export default function applyQrCodeApiEndpoints(app) {
         return;
       }
 
-      const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
+      // Toast.create(app, {
+      //   duration: '1000',
+      //   message: 'Hi! (quickly)'
+      // });
 
-      const script = await client.get({
-        path: '/admin/api/2021-01/script_tags.json',
-        query: {
-          src: 'https://unpkg.com/@livenetworks/external-links@1.0.1/ln-external-links.js'
-        }
-      });
 
-      console.log(`script`, script)
+      const scripts = await ScriptTag.all({
+        session,
+        since_id: "421379493",
+      })
 
-      res.send(script.body);
+      console.log(`scripts`, scripts)
+
+      // const client = new Shopify.Clients.Rest(session.shop, session.accessToken);
+
+      // const script = await client.get({
+      //   path: '/admin/api/2022-10/script_tags.json?since_id=421379493',
+      //   // query: {
+      //   //   src: 'https://unpkg.com/@livenetworks/external-links@1.0.1/ln-external-links.js'
+      //   // }
+      // });
+
+      // console.log(`script`, script)
+
+      // res.send(script.body);
+
+
+      res.send('true');
 
     } catch (error) {
+      // res.send(JSON.stringify(Object.keys(error)));
       res.status(500).send(error.message);
     }
   });
